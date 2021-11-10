@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { CartService } from '../cart.service';
+import { CartService } from '../../cart.service';
+import { Product } from '../../model/product';
 
 @Component({
   selector: 'app-cart',
@@ -9,22 +10,23 @@ import { CartService } from '../cart.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent {
-  items;
-  checkoutForm;
+  items: Product[];
+  checkoutForm: FormGroup;
 
   constructor(
     private cartService: CartService,
     private formBuilder: FormBuilder,
-  ) {
-    this.items = this.cartService.getItems();
+  ) { }
 
+  ngOnInit(): void{
+    this.items = this.cartService.getItems();
     this.checkoutForm = this.formBuilder.group({
       name: '',
       address: ''
     });
   }
 
-  onSubmit(customerData) {
+  onSubmit(customerData):void {
     // Process checkout data here
     console.warn('Your order has been submitted', customerData);
 

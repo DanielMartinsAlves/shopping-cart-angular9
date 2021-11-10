@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { products } from '../products';
+import { products } from '../../products';
 // add cart service
-import { CartService } from '../cart.service';
+import { CartService } from '../../cart.service';
+import { Product } from '../../model/product';
 
 @Component({
   selector: 'app-product-details',
@@ -12,18 +13,18 @@ import { CartService } from '../cart.service';
 })
 export class ProductDetailsComponent implements OnInit {
   
-  product;
+  product:Product;
 
   // metodo onInit
-  ngOnInit() {
+  ngOnInit():void {
     //  subscribe to route params and fetch the product based on the productId  
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params:ParamMap) => {
       this.product = products[+params.get('productId')];
     });
   }
 
   // serviço
-  addToCart(product) {
+  addToCart(product: Product):void {
     window.alert('Your product has been added to the cart!');
     this.cartService.addToCart(product);
   }

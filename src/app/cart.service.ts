@@ -1,29 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Product } from './model/product';
+import { Observable } from 'rxjs';
+import { ShippingPrice } from './model/shipping-price';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CartService {
-  items = [];
+  items: Product[] = [];
 
   constructor(
     private http: HttpClient
   ) {}
 
 
-  addToCart(product) {
+  addToCart(product:Product):void {
     this.items.push(product);
   }
 
-  getItems() {
+  getItems(): Product[]{
     return this.items;
   }
 
-  clearCart() {
+  clearCart():Product[] {
     this.items = [];
     return this.items;
   }
 
-  getShippingPrices() {
-    return this.http.get('/assets/shipping.json');
+  getShippingPrices():Observable<ShippingPrice[]> {
+    return this.http.get<ShippingPrice[]>('/assets/shipping.json');
   }
 }
